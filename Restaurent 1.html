@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OoTaaa</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Poppins, sans-serif;
+        }
+
+        body {
+            color: white;
+            background: url("https://img.freepik.com/free-photo/restaurant-interior_1127-3394.jpg?semt=ais_rp_progressive&w=740&q=80")
+                no-repeat center / cover fixed;
+        }
+
+        /* NAV */
+        nav {
+            position: fixed;
+            width: 100%;
+            background: rgba(0, 0, 0, .85);
+            padding: 15px;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+
+        #cart-btn {
+            margin-left: 20px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* HEADER */
+        header {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, .6);
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 4rem;
+        }
+
+        header p {
+            margin-top: 15px;
+        }
+
+        .btn {
+            margin-top: 25px;
+            padding: 12px 30px;
+            border: none;
+            background: #e63946;
+            color: white;
+            cursor: pointer;
+        }
+
+        section {
+            padding: 80px 10%;
+            background: rgba(0, 0, 0, .7);
+            text-align: center;
+        }
+
+        .menu-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: #222;
+            padding: 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: .3s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+        }
+
+        /* CART */
+        #cart {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 350px;
+            height: 100%;
+            background: #111;
+            padding: 20px;
+            transition: .4s;
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        #cart.active {
+            right: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #333;
+            margin: 15px 0;
+            padding-bottom: 10px;
+        }
+
+        .cart-controls button {
+            padding: 5px 10px;
+            margin: 0 3px;
+            cursor: pointer;
+        }
+
+        footer {
+            background: black;
+            padding: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+<nav>
+    <a href="#home">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#contact">Contact</a>
+    <span id="cart-btn" onclick="toggleCart()">
+        🛒 Cart (<span id="cart-count">0</span>)
+    </span>
+</nav>
+
+<header id="home">
+    <div>
+        <h1>OoTaaa</h1>
+        <p>By Chef Santosh, Chef Roshan, & Chef Sadik</p>
+        <button class="btn" onclick="scrollToSection('menu')">View Menu</button>
+    </div>
+</header>
+
+<section id="menu">
+    <h1>Menu</h1>
+
+    <h2>NON-VEG</h2>
+    <div class="menu-items">
+        <div class="card" onclick="addToCart('Hyderabadi Biryani',200)">Hyderabadi Biryani<br>Rs.200</div>
+        <div class="card" onclick="addToCart('Biriyani',200)">Biriyani<br>Rs.200</div>
+        <div class="card" onclick="addToCart('Butter Chicken',180)">Butter Chicken<br>Rs.180</div>
+        <div class="card" onclick="addToCart('Tandoori Chicken',150)">Tandoori Chicken<br>Rs.150</div>
+        <div class="card" onclick="addToCart('Egg Rice',120)">Egg Rice<br>Rs.120</div>
+        <div class="card" onclick="addToCart('Chicken Tikka Masala',170)">Chicken Tikka Masala<br>Rs.170</div>
+        <div class="card" onclick="addToCart('Chicken Kebab',100)">Chicken Kebab<br>Rs.100</div>
+    </div>
+
+    <br><br>
+
+    <h2>VEG</h2>
+    <div class="menu-items">
+        <div class="card" onclick="addToCart('Paneer Butter Masala',150)">Paneer Butter Masala<br>Rs.150</div>
+        <div class="card" onclick="addToCart('Chole Bhature',100)">Chole Bhature<br>Rs.100</div>
+        <div class="card" onclick="addToCart('Masala Dosa',100)">Masala Dosa<br>Rs.100</div>
+        <div class="card" onclick="addToCart('Palak Paneer',150)">Palak Paneer<br>Rs.150</div>
+        <div class="card" onclick="addToCart('Aloo Paratha',100)">Aloo Paratha<br>Rs.100</div>
+        <div class="card" onclick="addToCart('Rajma Masala',100)">Rajma Masala<br>Rs.100</div>
+        <div class="card" onclick="addToCart('Pav Bhaji',80)">Pav Bhaji<br>Rs.80</div>
+    </div>
+
+    <br><br>
+
+    <h2>Desserts</h2>
+    <div class="menu-items">
+        <div class="card" onclick="addToCart('Gulab Jamun',30)">Gulab Jamun<br>Rs.30</div>
+        <div class="card" onclick="addToCart('Rasgulla',30)">Rasgulla<br>Rs.30</div>
+        <div class="card" onclick="addToCart('Gajar Ka Halwa',40)">Gajar Ka Halwa<br>Rs.40</div>
+        <div class="card" onclick="addToCart('Kheer (Payasam)',40)">Kheer (Payasam)<br>Rs.40</div>
+        <div class="card" onclick="addToCart('Rasmalai',50)">Rasmalai<br>Rs.50</div>
+        <div class="card" onclick="addToCart('Kulfi',30)">Kulfi<br>Rs.30</div>
+        <div class="card" onclick="addToCart('Shahi Tukda',50)">Shahi Tukda<br>Rs.50</div>
+        <div class="card" onclick="addToCart('Sweet Paan',20)">Sweet Paan<br>Rs.20</div>
+    </div>
+</section>
+
+<section id="contact">
+    <h2>Reserve a Table</h2><br>
+<p>Call:1234567890</p><br><br>
+
+    <form>
+        <input placeholder="Name" required>
+        <input type="phone number" placeholder="phone number" required>
+        <input type="date & time" placeholder="Date & Time" required>
+        <button class="btn">Book</button>
+    </form>
+</section>
+
+<footer>
+    <p>© 2026 OoTaaa | All Rights Reserved<br> Muhehehe </br></p>
+</footer>
+
+<!-- CART -->
+<div id="cart">
+    <h2>Your Cart</h2>
+    <div id="cart-items"></div>
+    <h3>Total: Rs.<span id="cart-total">0</span></h3>
+    <br>
+    <button class="btn" onclick="toggleCart()">Close</button>
+</div>
+
+<script>
+    let cart = {};
+
+    function addToCart(name, price) {
+        cart[name] ? cart[name].qty++ : (cart[name] = { price, qty: 1 });
+        updateCart();
+    }
+
+    function updateCart() {
+        let items = "", count = 0, total = 0;
+
+        for (let i in cart) {
+            count += cart[i].qty;
+            total += cart[i].price * cart[i].qty;
+            items += `
+            <div class="cart-item">
+                <div>${i}<br>Rs.${cart[i].price} × ${cart[i].qty}</div>
+                <div class="cart-controls">
+                    <button onclick="changeQty('${i}',1)">+</button>
+                    <button onclick="changeQty('${i}',-1)">−</button>
+                </div>
+            </div>`;
+        }
+
+        document.getElementById("cart-items").innerHTML = items;
+        document.getElementById("cart-count").innerText = count;
+        document.getElementById("cart-total").innerText = total;
+    }
+
+    function changeQty(item, val) {
+        cart[item].qty += val;
+        if (cart[item].qty <= 0) delete cart[item];
+        updateCart();
+    }
+
+    function toggleCart() {
+        document.getElementById("cart").classList.toggle("active");
+    }
+
+    function scrollToSection(id) {
+        document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    }
+</script>
+
+</body>
+</html>
